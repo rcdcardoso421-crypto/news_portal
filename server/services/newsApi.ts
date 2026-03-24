@@ -29,10 +29,10 @@ export async function fetchNewsByCategory(
   try {
     const params = new URLSearchParams({
       category,
+      country: "us",
       pageSize: limit.toString(),
       apiKey: ENV.newsapiKey,
       sortBy: "publishedAt",
-      language: "pt",
     });
 
     const response = await fetch(`${NEWSAPI_BASE_URL}/top-headlines?${params}`);
@@ -69,7 +69,6 @@ export async function searchNews(
       pageSize: limit.toString(),
       apiKey: ENV.newsapiKey,
       sortBy: "publishedAt",
-      language: "pt",
     });
 
     const response = await fetch(`${NEWSAPI_BASE_URL}/everything?${params}`);

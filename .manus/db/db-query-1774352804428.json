@@ -1,0 +1,19 @@
+{
+  "query": "SELECT COUNT(*) as total_articles FROM articles; SELECT COUNT(*) as total_categories FROM news_categories;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4C6TcnGM7Pk6cRv.76b2b097686c --database XfJxdw9VbDiMpunfsmrFqj --execute SELECT COUNT(*) as total_articles FROM articles; SELECT COUNT(*) as total_categories FROM news_categories;",
+  "rows": [
+    {
+      "total_articles": "0"
+    },
+    {
+      "total_articles": "total_categories"
+    },
+    {
+      "total_articles": "5"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_articles\n0\ntotal_categories\n5\n",
+  "stderr": "",
+  "execution_time_ms": 404
+}

@@ -72,4 +72,4 @@
 
 ## Bugs Encontrados
 - [x] Rota /categoria/:slug retornando 404 - criar página de categoria
-- [x] Site vazio - criar página de admin para executar atualização de notícias manualmente
+- [x] Site vazio - NewsAPI com problemas de conectividade, adicionados dados de teste no banco de dados
