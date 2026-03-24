@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, articles, newsCategories } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,67 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+/**
+ * Get all news categories
+ */
+export async function getNewsCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(newsCategories);
+}
+
+/**
+ * Get articles by category
+ */
+export async function getArticlesByCategory(categoryId: number, limit = 20, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(articles)
+    .where(eq(articles.categoryId, categoryId))
+    .orderBy(desc(articles.publishedAt))
+    .limit(limit)
+    .offset(offset);
+}
+
+/**
+ * Get trending articles (most viewed)
+ */
+export async function getTrendingArticles(limit = 10) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(articles)
+    .orderBy(desc(articles.views))
+    .limit(limit);
+}
+
+/**
+ * Get article by ID
+ */
+export async function getArticleById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db
+    .select()
+    .from(articles)
+    .where(eq(articles.id, id))
+    .limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+/**
+ * Get latest articles
+ */
+export async function getLatestArticles(limit = 20, offset = 0) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(articles)
+    .orderBy(desc(articles.publishedAt))
+    .limit(limit)
+    .offset(offset);
+}
