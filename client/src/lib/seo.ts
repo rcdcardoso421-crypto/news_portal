@@ -111,7 +111,7 @@ export function generateArticleSchema(article: {
     image: article.image,
     author: {
       "@type": "Organization",
-      name: article.author || "NotíciasAI",
+      name: article.author || "Impacto News",
     },
     datePublished: article.publishedDate,
     dateModified: article.modifiedDate || article.publishedDate,

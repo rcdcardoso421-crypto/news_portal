@@ -15,7 +15,7 @@ export function Header({ categories }: HeaderProps) {
     <header className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
       {/* Top bar */}
       <div className="bg-primary text-primary-foreground py-2 px-4 text-sm font-medium text-center">
-        Portal de Notícias - Informação em Tempo Real
+        Impacto News - Informação que Transforma
       </div>
 
       {/* Main header */}
@@ -27,7 +27,7 @@ export function Header({ categories }: HeaderProps) {
               <span className="text-primary-foreground font-bold text-lg">📰</span>
             </div>
             <span className="hidden sm:inline font-bold text-xl text-foreground">
-              NotíciasAI
+              Impacto News
             </span>
           </a>
         </Link>

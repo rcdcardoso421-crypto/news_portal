@@ -73,3 +73,6 @@
 ## Bugs Encontrados
 - [x] Rota /categoria/:slug retornando 404 - criar página de categoria
 - [x] Site vazio - NewsAPI com problemas de conectividade, adicionados dados de teste no banco de dados
+
+## Alterações de Branding
+- [x] Renomear portal para "Impacto News" em todos os componentes

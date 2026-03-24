@@ -4,9 +4,20 @@ import { Header } from "@/components/Header";
 import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Loader2 } from "lucide-react";
+import { updateMetaTags } from "@/lib/seo";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+
+  // Update SEO meta tags
+  useEffect(() => {
+    updateMetaTags({
+      title: "Impacto News - Informacao que Transforma",
+      description: "Portal de noticias automatizado com conteudo reescrito por IA. Acompanhe as ultimas noticias de Politica, Economia, Tecnologia, Esportes e Entretenimento.",
+      keywords: "noticias, portal de noticias, ultimas noticias, tecnologia, economia, politica, esportes, entretenimento",
+      ogType: "website",
+    });
+  }, []);
 
   // Fetch categories
   const { data: categories = [], isLoading: categoriesLoading } =
