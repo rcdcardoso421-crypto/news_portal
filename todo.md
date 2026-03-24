@@ -68,3 +68,7 @@
 - [ ] Testar SEO (meta tags, schema.org)
 - [ ] Testar responsividade
 - [ ] Corrigir bugs e ajustes finais
+
+
+## Bugs Encontrados
+- [x] Rota /categoria/:slug retornando 404 - criar página de categoria
