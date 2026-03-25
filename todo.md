@@ -82,3 +82,4 @@
 ## Novas Funcionalidades Solicitadas
 - [x] Paginação infinita - carregar mais notícias ao rolar para baixo
 - [x] Erro de "Maximum update depth exceeded" em Home.tsx - corrigir dependências do useEffect
+- [x] Implementar botão de alternância entre modo claro e escuro

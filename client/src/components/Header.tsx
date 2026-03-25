@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 interface HeaderProps {
   categories: Array<{ id: number; slug: string; name: string }>;
@@ -58,6 +59,9 @@ export function Header({ categories }: HeaderProps) {
             </Link>
           ))}
         </nav>
+
+        {/* Theme toggle */}
+        <ThemeToggle />
 
         {/* Mobile menu button */}
         <button
