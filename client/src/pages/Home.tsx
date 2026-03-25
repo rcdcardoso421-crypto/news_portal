@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Header } from "@/components/Header";
 import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Loader2 } from "lucide-react";
 import { updateMetaTags } from "@/lib/seo";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -45,6 +44,8 @@ export default function Home() {
 
   // Accumulate articles from pagination
   useEffect(() => {
+    if (latestArticles.length === 0) return; // Evitar atualizar quando vazio
+    
     if (page === 1) {
       setAllLatestArticles(latestArticles);
     } else {
@@ -54,26 +55,37 @@ export default function Home() {
   }, [latestArticles, page]);
 
   // Handle infinite scroll
-  const handleLoadMore = () => {
+  const handleLoadMore = useCallback(() => {
     if (!isLoadingMore && !latestLoading && latestArticles.length > 0) {
       setIsLoadingMore(true);
       setPage((prev) => prev + 1);
     }
-  };
+  }, [isLoadingMore, latestLoading, latestArticles.length]);
 
-  useInfiniteScroll({
-    onLoadMore: handleLoadMore,
-    isLoading: isLoadingMore || latestLoading,
-    hasMore: latestArticles.length >= 20,
-    threshold: 300,
-  });
+  // Setup infinite scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isLoadingMore || latestLoading || latestArticles.length < 20) return;
+      
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      
+      if (scrollTop + windowHeight >= docHeight - 300) {
+        handleLoadMore();
+      }
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isLoadingMore, latestLoading, latestArticles.length, handleLoadMore]);
 
   // Set first category as default
   useEffect(() => {
     if (categories.length > 0 && selectedCategory === null) {
       setSelectedCategory(categories[0].id);
     }
-  }, [categories, selectedCategory]);
+  }, [categories]);
 
   const featuredArticles = latestArticles.slice(0, 5).map((article) => ({
     id: article.id,
