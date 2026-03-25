@@ -30,8 +30,10 @@ export function ArticleCard({
     : "Recente";
 
   return (
-    <Link href={`/artigo/${id}`}>
-      <a className="group block bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-shadow duration-300 h-full">
+    <Link
+      href={`/artigo/${id}`}
+      className="group block bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-shadow duration-300 h-full"
+    >
         {/* Image */}
         {imageUrl && (
           <div className="relative overflow-hidden bg-muted h-40 sm:h-48">
@@ -72,7 +74,6 @@ export function ArticleCard({
             <time dateTime={publishedAt?.toISOString()}>{formattedDate}</time>
           </div>
         </div>
-      </a>
     </Link>
   );
 }

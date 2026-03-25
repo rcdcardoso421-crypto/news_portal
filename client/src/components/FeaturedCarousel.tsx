@@ -67,15 +67,13 @@ export function FeaturedCarousel({ articles }: FeaturedCarouselProps) {
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
-        <Link href={`/artigo/${current.id}`}>
-          <a className="group/link">
-            <h2 className="text-2xl sm:text-4xl font-bold text-white mb-3 line-clamp-3 group-hover/link:underline">
-              {current.title}
-            </h2>
-            <p className="text-sm sm:text-base text-gray-200 line-clamp-2 mb-4">
-              {current.description}
-            </p>
-          </a>
+        <Link href={`/artigo/${current.id}`} className="group/link">
+          <h2 className="text-2xl sm:text-4xl font-bold text-white mb-3 line-clamp-3 group-hover/link:underline">
+            {current.title}
+          </h2>
+          <p className="text-sm sm:text-base text-gray-200 line-clamp-2 mb-4">
+            {current.description}
+          </p>
         </Link>
 
         <div className="flex items-center justify-between">
