@@ -1,13 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { Header } from "@/components/Header";
 import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Loader2 } from "lucide-react";
 import { updateMetaTags } from "@/lib/seo";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const [allLatestArticles, setAllLatestArticles] = useState<any[]>([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Update SEO meta tags
   useEffect(() => {
@@ -23,9 +28,9 @@ export default function Home() {
   const { data: categories = [], isLoading: categoriesLoading } =
     trpc.news.categories.useQuery();
 
-  // Fetch latest articles
+  // Fetch latest articles with pagination
   const { data: latestArticles = [], isLoading: latestLoading } =
-    trpc.news.latest.useQuery({ limit: 20 });
+    trpc.news.latest.useQuery({ limit: 20, offset: (page - 1) * 20 });
 
   // Fetch trending articles
   const { data: trendingArticles = [], isLoading: trendingLoading } =
@@ -37,6 +42,31 @@ export default function Home() {
       { categoryId: selectedCategory || 0, limit: 12 },
       { enabled: selectedCategory !== null }
     );
+
+  // Accumulate articles from pagination
+  useEffect(() => {
+    if (page === 1) {
+      setAllLatestArticles(latestArticles);
+    } else {
+      setAllLatestArticles((prev) => [...prev, ...latestArticles]);
+      setIsLoadingMore(false);
+    }
+  }, [latestArticles, page]);
+
+  // Handle infinite scroll
+  const handleLoadMore = () => {
+    if (!isLoadingMore && !latestLoading && latestArticles.length > 0) {
+      setIsLoadingMore(true);
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  useInfiniteScroll({
+    onLoadMore: handleLoadMore,
+    isLoading: isLoadingMore || latestLoading,
+    hasMore: latestArticles.length >= 20,
+    threshold: 300,
+  });
 
   // Set first category as default
   useEffect(() => {
@@ -74,23 +104,34 @@ export default function Home() {
             <div className="h-1 flex-grow ml-4 bg-gradient-to-r from-primary to-transparent rounded" />
           </div>
 
-          {latestLoading ? (
+          {allLatestArticles.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {allLatestArticles.map((article) => (
+                  <ArticleCard
+                    key={`${article.id}-${page}`}
+                    id={article.id}
+                    title={article.title}
+                    description={article.description || ""}
+                    imageUrl={article.imageUrl}
+                    views={article.views}
+                    publishedAt={article.publishedAt}
+                  />
+                ))}
+              </div>
+              {/* Load more trigger */}
+              <div
+                ref={loadMoreRef}
+                className="mt-8 flex justify-center"
+              >
+                {isLoadingMore && (
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                )}
+              </div>
+            </>
+          ) : latestLoading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            </div>
-          ) : latestArticles.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {latestArticles.slice(0, 6).map((article) => (
-                <ArticleCard
-                  key={article.id}
-                  id={article.id}
-                  title={article.title}
-                  description={article.description || ""}
-                  imageUrl={article.imageUrl}
-                  views={article.views}
-                  publishedAt={article.publishedAt}
-                />
-              ))}
             </div>
           ) : (
             <div className="text-center py-12 text-muted-foreground">

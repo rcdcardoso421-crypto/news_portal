@@ -77,3 +77,7 @@
 ## Alterações de Branding
 - [x] Renomear portal para "Impacto News" em todos os componentes
 - [x] Erro de <a> aninhado dentro de <a> - corrigir Header.tsx
+
+
+## Novas Funcionalidades Solicitadas
+- [x] Paginação infinita - carregar mais notícias ao rolar para baixo
