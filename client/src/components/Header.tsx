@@ -21,15 +21,13 @@ export function Header({ categories }: HeaderProps) {
       {/* Main header */}
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/">
-          <a className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">📰</span>
-            </div>
-            <span className="hidden sm:inline font-bold text-xl text-foreground">
-              Impacto News
-            </span>
-          </a>
+        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-lg">📰</span>
+          </div>
+          <span className="hidden sm:inline font-bold text-xl text-foreground">
+            Impacto News
+          </span>
         </Link>
 
         {/* Search bar - hidden on mobile */}
@@ -47,16 +45,16 @@ export function Header({ categories }: HeaderProps) {
         {/* Desktop navigation */}
         <nav className="hidden lg:flex items-center gap-1">
           {categories.slice(0, 4).map((cat) => (
-            <Link key={cat.id} href={`/categoria/${cat.slug}`}>
-              <a
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location === `/categoria/${cat.slug}`
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground hover:bg-muted"
-                }`}
-              >
-                {cat.name}
-              </a>
+            <Link
+              key={cat.id}
+              href={`/categoria/${cat.slug}`}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                location === `/categoria/${cat.slug}`
+                  ? "bg-primary text-primary-foreground"
+                  : "text-foreground hover:bg-muted"
+              }`}
+            >
+              {cat.name}
             </Link>
           ))}
         </nav>
@@ -79,17 +77,17 @@ export function Header({ categories }: HeaderProps) {
         <div className="lg:hidden border-t border-border bg-card">
           <div className="px-4 py-3 space-y-2">
             {categories.map((cat) => (
-              <Link key={cat.id} href={`/categoria/${cat.slug}`}>
-                <a
-                  className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    location === `/categoria/${cat.slug}`
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground hover:bg-muted"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {cat.name}
-                </a>
+              <Link
+                key={cat.id}
+                href={`/categoria/${cat.slug}`}
+                className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  location === `/categoria/${cat.slug}`
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-muted"
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {cat.name}
               </Link>
             ))}
           </div>
